@@ -40,11 +40,13 @@ function fetchBreeds() {
   });
 }
 fetchBreeds()
-  .then(data => select.innerHTML('beforeend', createMarkup(data)))
+  .then(data => select.insertAdjacentHTML('beforeend', createMarkup(data)))
   .catch(err => console.log(err));
 
 function createMarkup(arr) {
-  return arr.map(({ name }) => `<p>${name}</p>`).join('');
+  return arr
+    .map(({ id, name }) => `<option value="${id}">${name}</option>`)
+    .join('');
 }
 
 // function fetchCatByBreed(breedId) {
