@@ -5,7 +5,7 @@ axios.defaults.headers.common['x-api-key'] =
 
 const BASE_URL = 'https://api.thecatapi.com/v1/';
 const END_POINTS = 'breeds';
-const END_POINTS_ID = 'breed_ids';
+const END_POINTS_Img = 'images/search';
 const KEY =
   'live_QnYFBW48Rw6I7bGfsFA1QTbYdWtKQKT86j8h8KpF4TCTSz8rp4W4DFTADxItBVig';
 
@@ -16,10 +16,15 @@ const div = document.querySelector('.cat-info');
 const loader = document.querySelector('.loader');
 const errorMessage = document.querySelector('.error');
 
-let currentPage = 0;
+let breedId = '';
 
 select.addEventListener('click', fetchBreeds);
-loader.addEventListener('click', onLoader);
+
+select.addEventListener('submit', event => {
+  console.log(event.currentTarget.elements);
+});
+
+loader.addEventListener('search', onLoader);
 
 loader.style.display = 'none';
 errorMessage.style.display = 'none';
@@ -49,8 +54,15 @@ function createMarkup(arr) {
     .join('');
 }
 
+// function onHandlerSearch(e) {
+//   e.preventDefault();
+//   let search = e.currentTarget.elements;
+//   console.log(search.value);
+// }
+
 // function fetchCatByBreed(breedId) {
-//   return fetch(`${BASE_URL}?api_key=${KEY}&breed_ids=beng,abys`).then(
+//   breedId = currentTarget.elements.value;
+//   return fetch(`${BASE_URL}${END_POINTS_Img}?breed_ids=${breedId}`).then(
 //     responce => {
 //       if (!responce.ok) {
 //         throw new Error(responce.statusText);
