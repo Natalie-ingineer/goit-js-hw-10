@@ -31,11 +31,7 @@ select.addEventListener('change', () => {
 });
 
 function createMarkupCat(data) {
-  const cat = data[0].breeds[0]; // Тут може знадобитися адаптація залежно від формату відповіді API
-
-  if (!cat) {
-    return 'Немає даних про кота'; // або інше повідомлення про відсутність даних
-  }
+  const cat = data[0].breeds[0];
 
   const { name, description, temperament } = cat;
 
