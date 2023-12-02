@@ -1,49 +1,13 @@
-import axios from 'axios';
+import { fetchBreeds } from './cat-api';
 
-axios.defaults.headers.common['x-api-key'] =
-  'live_QnYFBW48Rw6I7bGfsFA1QTbYdWtKQKT86j8h8KpF4TCTSz8rp4W4DFTADxItBVig';
+import { fetchCatByBreed } from './cat-api';
 
-const BASE_URL = 'https://api.thecatapi.com/v1/';
-const END_POINTS = 'breeds';
-const END_POINTS_Img = 'images/search';
-const KEY =
-  'live_QnYFBW48Rw6I7bGfsFA1QTbYdWtKQKT86j8h8KpF4TCTSz8rp4W4DFTADxItBVig';
-
-// import { fetchBreeds } from './cat-api';
-// fetchBreeds();
 const select = document.querySelector('.breed-select');
 const div = document.querySelector('.cat-info');
+
 const loader = document.querySelector('.loader');
 const errorMessage = document.querySelector('.error');
 
-let breedId = '';
-
-select.addEventListener('click', fetchBreeds);
-
-select.addEventListener('submit', event => {
-  console.log(event.currentTarget.elements);
-});
-
-loader.addEventListener('search', onLoader);
-
-loader.style.display = 'none';
-errorMessage.style.display = 'none';
-
-function onLoader() {
-  currentPage += 1;
-  fetchBreeds(currentPage)
-    .then(data => select.insertAdjacentHTML('beforeend', createMarkup(data)))
-    .catch(err => console.log(err));
-}
-
-function fetchBreeds() {
-  return fetch(`${BASE_URL}${END_POINTS}?api_key=${KEY}`).then(responce => {
-    if (!responce.ok) {
-      throw new Error(responce.statusText);
-    }
-    return responce.json();
-  });
-}
 fetchBreeds()
   .then(data => select.insertAdjacentHTML('beforeend', createMarkup(data)))
   .catch(err => console.log(err));
@@ -54,23 +18,38 @@ function createMarkup(arr) {
     .join('');
 }
 
-// function onHandlerSearch(e) {
-//   e.preventDefault();
-//   let search = e.currentTarget.elements;
-//   console.log(search.value);
-// }
+// loader.addEventListener('click', onLoader);
 
-// function fetchCatByBreed(breedId) {
-//   breedId = currentTarget.elements.value;
-//   return fetch(`${BASE_URL}${END_POINTS_Img}?breed_ids=${breedId}`).then(
-//     responce => {
-//       if (!responce.ok) {
-//         throw new Error(responce.statusText);
-//       }
-//       return responce.json();
-//     }
-//   );
+// loader.style.display = 'none';
+// errorMessage.style.display = 'none';
+
+select.addEventListener('change', () => {
+  const selectedCat = select.value;
+  fetchCatByBreed(selectedCat)
+    .then(info => div.insertAdjacentHTML('beforeend', createMarkupCat(info)))
+    .catch(err => console.log(err));
+});
+
+function createMarkupCat(data) {
+  const cat = data[0].breeds[0]; // Тут може знадобитися адаптація залежно від формату відповіді API
+
+  if (!cat) {
+    return 'Немає даних про кота'; // або інше повідомлення про відсутність даних
+  }
+
+  const { name, description, temperament } = cat;
+
+  return `
+    <img src="${data[0].url}" alt="${name}" weight="350">
+    <h2>${name}</h2>
+    <p>${description}</p>
+    <p>${temperament}</p>
+  `;
+}
+
+// function onLoader() {
+//   currentPage += 1;
+//   fetchBreeds(currentPage)
+//     .then(data => select.insertAdjacentHTML('beforeend', createMarkup(data)))
+//     .catch(err => console.log(err));
 // }
-// fetchCatByBreed()
-//   .then(data => console.log(data))
-//   .catch(err => console.log(err));
