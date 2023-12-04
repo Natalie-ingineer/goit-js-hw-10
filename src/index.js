@@ -63,6 +63,7 @@ loader.addEventListener('click', onLoaderVisible);
 
 loader.style.display = 'none';
 errorMessage.style.display = 'none';
+div.style.width = '450px';
 
 fetchBreeds()
   .then(function (data) {
@@ -112,10 +113,10 @@ function createMarkupCat(data) {
   const { name, description, temperament } = cat;
 
   return `
-  <img src="${data[0].url}" alt="${name}" width="350">
+  <img src="${data[0].url}" alt="${name}" width="450">
   <h2>${name}</h2>
   <p>${description}</p>
-  <p>${temperament}</p>
+  <p>Temperament: ${temperament}</p>
   `;
 }
 
