@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+import SlimSelect from 'slim-select';
+
+import '/node_modules/slim-select/dist/slimselect.css';
+
+import '/node_modules/slim-select/dist/slimselect.min.js';
+
 axios.defaults.headers.common['x-api-key'] =
   'live_QnYFBW48Rw6I7bGfsFA1QTbYdWtKQKT86j8h8KpF4TCTSz8rp4W4DFTADxItBVig';
 
@@ -16,6 +22,10 @@ export function fetchBreeds() {
     if (!responce.ok) {
       throw new Error(responce.statusText);
     }
+
+    new SlimSelect({
+      select: '#selectElement',
+    });
     return responce.json();
     // page += 1;
   });

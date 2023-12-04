@@ -3,6 +3,11 @@ import { fetchBreeds } from './cat-api';
 import { fetchCatByBreed } from './cat-api';
 
 const select = document.querySelector('.breed-select');
+
+import SlimSelect from 'slim-select';
+
+import '/node_modules/slim-select/dist/slimselect.css';
+
 const div = document.querySelector('.cat-info');
 
 const loader = document.querySelector('.loader');
@@ -14,7 +19,13 @@ loader.style.display = 'none';
 errorMessage.style.display = 'none';
 
 fetchBreeds()
-  .then(data => select.insertAdjacentHTML('beforeend', createMarkup(data)))
+  .then(function (data) {
+    select.insertAdjacentHTML('beforeend', createMarkup(data));
+
+    new SlimSelect({
+      select: '.breed-select',
+    });
+  })
   .catch(err => errorHandler());
 
 function createMarkup(arr) {
@@ -57,7 +68,7 @@ function onLoaderVisible() {
 
 function onLoaderHidden() {
   loader.style.display = 'none';
-  select.style.display = 'block';
+  // select.style.display = 'block';
   div.style.display = 'block';
 }
 
