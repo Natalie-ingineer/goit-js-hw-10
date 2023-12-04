@@ -16,7 +16,7 @@ Notiflix.Notify.init({
   width: '280px',
   position: 'right-top', // 'right-top' - 'right-bottom' - 'left-top' - 'left-bottom' - 'center-top' - 'center-bottom' - 'center-center'
   distance: '10px',
-  opacity: 0,
+  opacity: 1,
   borderRadius: '5px',
   rtl: false,
   timeout: 3000,
@@ -72,12 +72,14 @@ fetchBreeds()
       select: '.breed-select',
     });
   })
-  .catch(
+  .catch(function () {
+    select.style.display = 'none';
+    loader.style.display = 'none';
+    div.style.display = 'none';
     Notiflix.Notify.failure(
       'Oops! Something went wrong! Try reloading the page!'
-    )
-  );
-// .catch(err => errorHandler());
+    );
+  });
 
 function createMarkup(arr) {
   return arr
@@ -88,11 +90,17 @@ function createMarkup(arr) {
 select.addEventListener('change', () => {
   onLoaderVisible();
   const selectedCat = select.value;
-  ResetPage();
   ClearPage();
   fetchCatByBreed(selectedCat)
     .then(info => div.insertAdjacentHTML('beforeend', createMarkupCat(info)))
-    .catch(err => console.log(err));
+    .catch(function () {
+      select.style.display = 'none';
+      loader.style.display = 'none';
+      div.style.display = 'none';
+      Notiflix.Notify.failure(
+        'Oops! Something went wrong! Try reloading the page!'
+      );
+    });
 });
 
 function createMarkupCat(data) {
@@ -116,25 +124,11 @@ function onLoaderVisible() {
   div.style.display = 'none';
 }
 
-// console.log('hello');
-
 function onLoaderHidden() {
   loader.style.display = 'none';
-  // select.style.display = 'block';
   div.style.display = 'block';
-}
-
-function ResetPage() {
-  page = 1;
 }
 
 function ClearPage() {
   div.innerHTML = '';
 }
-
-// function errorHandler() {
-//   errorMessage.style.display = 'block';
-//   loader.style.display = 'none';
-//   select.style.display = 'none';
-//   div.style.display = 'none';
-// }
