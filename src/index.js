@@ -8,6 +8,8 @@ import SlimSelect from 'slim-select';
 
 import '/node_modules/slim-select/dist/slimselect.css';
 
+import '/src/loader.css';
+
 const div = document.querySelector('.cat-info');
 
 const loader = document.querySelector('.loader');
@@ -61,6 +63,7 @@ function createMarkupCat(data) {
 function onLoaderVisible() {
   select.style.display = 'none';
   loader.style.display = 'block';
+  loader.textContent = '';
   div.style.display = 'none';
 }
 
