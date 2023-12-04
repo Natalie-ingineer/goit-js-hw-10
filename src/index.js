@@ -40,7 +40,7 @@ function createMarkupCat(data) {
 
   onLoaderHidden();
   return `
-  <img src="${data[0].url}" alt="${name}" weight="100">
+  <img src="${data[0].url}" alt="${name}" width="350">
   <h2>${name}</h2>
   <p>${description}</p>
   <p>${temperament}</p>
