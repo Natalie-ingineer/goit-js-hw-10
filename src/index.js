@@ -15,7 +15,7 @@ errorMessage.style.display = 'none';
 
 fetchBreeds()
   .then(data => select.insertAdjacentHTML('beforeend', createMarkup(data)))
-  .catch(err => console.log(err));
+  .catch(err => errorHandler());
 
 function createMarkup(arr) {
   return arr
@@ -26,6 +26,8 @@ function createMarkup(arr) {
 select.addEventListener('change', () => {
   onLoaderVisible();
   const selectedCat = select.value;
+  ResetPage();
+  ClearPage();
   fetchCatByBreed(selectedCat)
     .then(info => div.insertAdjacentHTML('beforeend', createMarkupCat(info)))
     .catch(err => console.log(err));
@@ -38,7 +40,7 @@ function createMarkupCat(data) {
 
   onLoaderHidden();
   return `
-  <img src="${data[0].url}" alt="${name}" weight="350">
+  <img src="${data[0].url}" alt="${name}" weight="100">
   <h2>${name}</h2>
   <p>${description}</p>
   <p>${temperament}</p>
@@ -51,10 +53,25 @@ function onLoaderVisible() {
   div.style.display = 'none';
 }
 
-console.log('hello');
+// console.log('hello');
 
 function onLoaderHidden() {
   loader.style.display = 'none';
   select.style.display = 'block';
   div.style.display = 'block';
+}
+
+function ResetPage() {
+  page = 1;
+}
+
+function ClearPage() {
+  div.innerHTML = '';
+}
+
+function errorHandler() {
+  errorMessage.style.display = 'block';
+  loader.style.display = 'none';
+  select.style.display = 'none';
+  div.style.display = 'none';
 }
