@@ -88,11 +88,14 @@ function createMarkup(arr) {
 }
 
 select.addEventListener('change', () => {
-  onLoaderVisible();
   const selectedCat = select.value;
   ClearPage();
+  onLoaderVisible();
   fetchCatByBreed(selectedCat)
-    .then(info => div.insertAdjacentHTML('beforeend', createMarkupCat(info)))
+    .then(function (info) {
+      div.insertAdjacentHTML('beforeend', createMarkupCat(info));
+      onLoaderHidden();
+    })
     .catch(function () {
       select.style.display = 'none';
       loader.style.display = 'none';
@@ -108,7 +111,6 @@ function createMarkupCat(data) {
 
   const { name, description, temperament } = cat;
 
-  onLoaderHidden();
   return `
   <img src="${data[0].url}" alt="${name}" width="350">
   <h2>${name}</h2>
